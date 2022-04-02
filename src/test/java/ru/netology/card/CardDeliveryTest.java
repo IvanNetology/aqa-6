@@ -8,9 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
@@ -44,7 +42,13 @@ public class CardDeliveryTest {
         $$("button").find(exactText("Запланировать")).click();
         $(withText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
         $("[class='notification__content']").shouldHave(Condition.text("Встреча успешно запланирована на " + planningDay1), Duration.ofSeconds(15));
+        closeWebDriver();
+        open("http://localhost:9999");
+        $("[data-test-id='city'] input").setValue(info.getCity());
         $("[data-test-id='date'] input").doubleClick().sendKeys(planningDay2);
+        $("[data-test-id='name'] input").setValue(info.getName());
+        $("[data-test-id='phone'] input").setValue(info.getPhoneNumber());
+        $("[data-test-id='agreement']").click();
         $$("button").find(exactText("Запланировать")).click();
         $(withText("У вас уже запланирована встреча на другую дату. Перепланировать?")).shouldBe(visible, Duration.ofSeconds(10));
         $$("button").find(exactText("Перепланировать")).click();
