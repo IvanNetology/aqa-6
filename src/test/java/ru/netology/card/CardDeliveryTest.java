@@ -16,22 +16,12 @@ import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class CardDeliveryTest {
-    private Faker faker;
-
-    @BeforeEach
-    void setUpAll() {
-        faker = new Faker(new Locale("ru"));
-    }
-
-    String generateDate(int days) {
-        return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-    }
 
     @Test
     public void shouldFrd() {
         RegistrationInfo info = DataGenerator.Registration.generateInfo("ru");
-        String planningDay1 = generateDate(5);
-        String planningDay2 = generateDate(7);
+        String planningDay1 = DataGenerator.Registration.generateDate(5);
+        String planningDay2 = DataGenerator.Registration.generateDate(7);
 
         open("http://localhost:9999");
         $("[data-test-id='city'] input").setValue(info.getCity());
